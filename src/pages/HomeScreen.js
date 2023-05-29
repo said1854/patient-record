@@ -31,33 +31,33 @@ const HomeScreen = ({ navigation }) => {
         <View style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
             <MyImageButton
-              title="Yeni Kayıt"
+              title="Hasta Kayıt"
               btnColor="#2992C4"
               btnIcon="user-plus"
               customClick={() => navigation.navigate("Register")}
             />
 
             <MyImageButton
-              title="Update"
+              title="Hasta guncelle"
               btnColor="#A45BB9"
               btnIcon="user-circle"
               customClick={() => navigation.navigate("Update")}
             />
 
             <MyImageButton
-              title="View"
+              title="Hasta arama"
               btnColor="#F9AD29"
               btnIcon="user"
               customClick={() => navigation.navigate("View")}
             />
             <MyImageButton
-              title="View All"
+              title="Hastaları listele"
               btnColor="#384F62"
               btnIcon="users"
               customClick={() => navigation.navigate("ViewAll")}
             />
             <MyImageButton
-              title="Delete"
+              title="Hasta sil"
               btnColor="#D1503A"
               btnIcon="user-times"
               customClick={() => navigation.navigate("Delete")}

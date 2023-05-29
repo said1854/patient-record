@@ -22,7 +22,7 @@ const App = () => {
           name="HomeScreen"
           component={HomeScreen}
           options={{
-            title: "Kullanıcılar Kaydı",
+            title: "Hasta Kayıt Uygulaması",
             headerStyle: {
               backgroundColor: "#F2BED1",
             },
