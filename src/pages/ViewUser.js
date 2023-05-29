@@ -33,14 +33,12 @@ const ViewUser = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
           <Mytext text="User Filter" />
           <Mytextinput
             placeholder="Enter Code"
-            onChangeText={
-              (inputUserId) => setInputUserId(inputUserId)
-            }
+            onChangeText={(inputUserId) => setInputUserId(inputUserId)}
             style={{ padding: 10 }}
           />
           <Mybutton title="Search User" customClick={searchUser} />
@@ -48,8 +46,9 @@ const ViewUser = () => {
             style={{
               marginLeft: 35,
               marginRight: 35,
-              marginTop: 10
-            }}>
+              marginTop: 10,
+            }}
+          >
             <Text>Code : {userData.user_id}</Text>
             <Text>Adı Soyadı : {userData.user_name}</Text>
             <Text>Telefon : {userData.user_contact}</Text>

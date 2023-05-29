@@ -16,9 +16,9 @@ const Mybutton = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: 'center',
-    backgroundColor: '#00C5AD',
-    color: '#ffffff',
+    alignItems: "center",
+    backgroundColor: "#D14D72",
+    color: "#ffffff",
     padding: 10,
     marginTop: 16,
     marginLeft: 35,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   text: {
-    color: '#ffffff',
+    color: "#ffffff",
   },
 });
 

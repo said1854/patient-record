@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { imagePicker, launchImageLibrary } from "react-native-image-picker";
+// import { imagePicker, launchImageLibrary } from "react-native-image-picker";
 // import * as ImagePicker from "react-native-image-picker";
 import {
   View,
@@ -17,97 +17,56 @@ import { DatabaseConnection } from "../database/database-connection";
 const db = DatabaseConnection.getConnection();
 
 const RegisterUser = ({ navigation }) => {
-  const [imageUri, setImageUri] = useState("");
-  let [userName, setUserName] = useState("");
-  let [userContact, setUserContact] = useState("");
-  let [userAddress, setUserAddress] = useState("");
-
-  const [selectedImage, setSelectedImage] = useState(null);
-  // const options = {};
-
-  // const checkCameraPermission = async () => {
-  //   try {
-  //     const granted = await PermissionsAndroid.check(
-  //       PermissionsAndroid.PERMISSIONS.CAMERA
-  //     );
-  //     if (granted) {
-  //       console.log("Camera permission granted");
-  //     } else {
-  //       console.log("Camera permission not granted");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error checking camera permission:", error);
-  //   }
-  // };
-  // checkCameraPermission();
-  // const selectImage = () => {
-  //   console.log("Upload Image");
-  //   const options = {
-  //     storageOption: {
-  //       path: "images",
-  //       mediaType: "photo",
-  //     },
-  //     includeBase64: true,
-  //   };
-  //   imagePicker.launchImageLibrary(options, (response) => {
-  //     console.log("Response = ", response);
-  //     if (response.didCancel) {
-  //       console.log("User cancelled image picker");
-  //     } else if (response.error) {
-  //       console.log("Image picker error:", response.error);
-  //     } else if (response.customButton) {
-  //       console.log("User tapped custom button", response.customButton);
-  //     } else {
-  //       const source = { uri: "data:image/jpeg;base64," + response.base64 };
-  //       setImageUri(source);
-  //     }
-  //   });
-  // };
-
-  // const onImageLibraryPress = useCallback(() => {
-  //   const options = {
-  //     selectionLimit: 1,
-  //     mediaType: "photo",
-  //     includeBase64: false,
-  //   };
-  //   ImagePicker.launchImageLibrary(options, setPickerResponse);
-  // }, []);
-
-  // const onCameraPress = useCallback(() => {
-  //   const options = {
-  //     saveToPhotos: true,
-  //     mediaType: "photo",
-  //     includeBase64: false,
-  //   };
-  //   ImagePicker.launchCamera(options, setPickerResponse);
-  // }, []);
+  const [nurse, setNurse] = useState("");
+  const [doctor, setDoctor] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
+  const [name, setName] = useState("");
+  const [tcNo, setTcNo] = useState("");
+  const [contact, setContact] = useState("");
+  const [address, setAddress] = useState("");
 
   let register_user = () => {
-    console.log(userName, userContact, userAddress);
+    console.log(name, contact, address, diagnosis, nurse, doctor, tcNo);
 
-    if (!userName) {
-      alert("Please fill in the name !");
+    if (!doctor) {
+      alert("Sorumlu hekim giriniz!");
       return;
     }
-    if (!userContact) {
-      alert("Please fill in the contact");
+    if (!nurse) {
+      alert("Sorumlu hemsire giriniz!");
       return;
     }
-    if (!userAddress) {
-      alert("Please fill in the address !");
+    if (!diagnosis) {
+      alert("Tani giriniz!");
+      return;
+    }
+    if (!name) {
+      alert("Ad Soyad giriniz!");
+      return;
+    }
+    if (!tcNo) {
+      alert("Tc kimlik numarasi giriniz!");
+      return;
+    }
+    if (!contact) {
+      alert("Iletisim numarasi giriniz!");
+      return;
+    }
+    if (!address) {
+      alert("Adres giriniz!");
       return;
     }
 
     db.transaction(function (tx) {
       tx.executeSql(
-        "INSERT INTO table_user (user_name, user_contact, user_address) VALUES (?,?,?)",
-        [userName, userContact, userAddress],
+        "INSERT INTO table_user (name, contact, address,  diagnosis, nurse, doctor, tcNo) VALUES (?,?,?,?,?,?,?)",
+        [name, contact, address, diagnosis, nurse, doctor, tcNo],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
           if (results.rowsAffected > 0) {
             Alert.alert(
               "Success",
-              "Successfully Registered User !!!",
+              "Hasta başarıyla kaydedildi !!",
               [
                 {
                   text: "Ok",
@@ -116,7 +75,7 @@ const RegisterUser = ({ navigation }) => {
               ],
               { cancelable: false }
             );
-          } else alert("Error trying to register User !!!");
+          } else alert("Hasta kayit sirasinda hata olustu !!!");
         }
       );
     });
@@ -124,7 +83,7 @@ const RegisterUser = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: "F8E8EE" }}>
+      <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
           <ScrollView keyboardShouldPersistTaps="handled">
             <KeyboardAvoidingView
@@ -132,31 +91,51 @@ const RegisterUser = ({ navigation }) => {
               style={{ flex: 1, justifyContent: "space-between" }}
             >
               <Mytextinput
+                placeholder="Sorumlu Hekim"
+                onChangeText={(doctor) => setDoctor(doctor)}
+                style={{ padding: 10 }}
+              />
+              <Mytextinput
+                placeholder="Sorumlu hemşire"
+                onChangeText={(nurse) => setNurse(nurse)}
+                style={{ padding: 10 }}
+              />
+              <Mytextinput
+                placeholder="Tanı"
+                numberOfLines={2}
+                multiline={true}
+                onChangeText={(diagnosis) => setDiagnosis(diagnosis)}
+                style={{ padding: 10 }}
+              />
+              <Mytextinput
                 placeholder="Adı Soyadı"
-                onChangeText={(userName) => setUserName(userName)}
+                onChangeText={(name) => setName(name)}
+                style={{ padding: 10 }}
+              />
+              <Mytextinput
+                placeholder="Tc kimlik no"
+                onChangeText={(tcNo) => setTcNo(tcNo)}
+                keyboardType="numeric"
+                maxLength={11}
                 style={{ padding: 10 }}
               />
               <Mytextinput
                 placeholder="Telefon"
-                onChangeText={(userContact) => setUserContact(userContact)}
-                maxLength={10}
+                onChangeText={(contact) => setContact(contact)}
                 keyboardType="numeric"
                 style={{ padding: 10 }}
               />
+
               <Mytextinput
                 placeholder="Adres"
-                onChangeText={(userAddress) => setUserAddress(userAddress)}
+                onChangeText={(address) => setAddress(address)}
                 maxLength={225}
                 numberOfLines={5}
                 multiline={true}
                 style={{ textAlignVertical: "top", padding: 10 }}
               />
-              <Mybutton title="Save" customClick={register_user} />
-              <Mybutton
-                title="Upload Image"
-                // customClick={onImageLibraryPress}
-              />
-              {/* <Image source={imageUri} /> */}
+              <Mybutton title="Fotograf yukle" />
+              <Mybutton title="Kaydet" customClick={register_user} />
             </KeyboardAvoidingView>
           </ScrollView>
         </View>

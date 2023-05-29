@@ -26,7 +26,14 @@ const ViewAllUser = () => {
     return (
       <View
         key={item.user_id}
-        style={{ backgroundColor: '#EEE', marginTop: 20, padding: 30, borderRadius: 10 }}>
+        style={{
+          // flex: 0,
+          backgroundColor: "#F2BED1",
+          marginTop: 20,
+          padding: 30,
+          borderRadius: 10,
+        }}
+      >
         <Text style={styles.textheader}>Code</Text>
         <Text style={styles.textbottom}>{item.user_id}</Text>
 
@@ -38,15 +45,13 @@ const ViewAllUser = () => {
 
         <Text style={styles.textheader}>Adres</Text>
         <Text style={styles.textbottom}>{item.user_address}</Text>
-
-
       </View>
     );
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
           <FlatList
             style={{ marginTop: 30 }}

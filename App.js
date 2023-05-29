@@ -29,6 +29,7 @@ const App = () => {
             headerTintColor: "#fff",
             headerTitleStyle: {
               fontWeight: "bold",
+              paddingLeft: "70px",
             },
           }}
         />
@@ -36,9 +37,9 @@ const App = () => {
           name="Register"
           component={RegisterUser}
           options={{
-            title: "Kullanıcı Kayıt",
+            title: "Hasta Kayıt",
             headerStyle: {
-              backgroundColor: "#2992C4",
+              backgroundColor: "#F2BED1",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
@@ -50,9 +51,9 @@ const App = () => {
           name="Update"
           component={UpdateUser}
           options={{
-            title: "Kayıt Güncelle",
+            title: "Hasta Güncelle",
             headerStyle: {
-              backgroundColor: "#A45BB9",
+              backgroundColor: "#F2BED1",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
@@ -64,9 +65,9 @@ const App = () => {
           name="View"
           component={ViewUser}
           options={{
-            title: "Kullanıcı Bul",
+            title: "Hasta Bul",
             headerStyle: {
-              backgroundColor: "#F9AD29",
+              backgroundColor: "#F2BED1",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
@@ -78,9 +79,9 @@ const App = () => {
           name="ViewAll"
           component={ViewAllUser}
           options={{
-            title: "Tüm Kullanıcılar",
+            title: "Tüm Hastalar",
             headerStyle: {
-              backgroundColor: "#384F62",
+              backgroundColor: "#F2BED1",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
@@ -94,7 +95,7 @@ const App = () => {
           options={{
             title: "Silme",
             headerStyle: {
-              backgroundColor: "#D1503A",
+              backgroundColor: "#F2BED1",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
