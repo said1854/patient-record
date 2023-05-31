@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
           if (res.rows.length == 0) {
             txn.executeSql("DROP TABLE IF EXISTS patient_table", []);
             txn.executeSql(
-              "CREATE TABLE IF NOT EXISTS patient_table(user_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(25), contact INT(10), address VARCHAR(150), diagnosis VARCHAR(100), nurse VARCHAR(25), doctor VARCHAR(25), tcNo INT(11))",
+              "CREATE TABLE IF NOT EXISTS patient_table(user_id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(25), contact INT(10), address VARCHAR(150), diagnosis VARCHAR(100), nurse VARCHAR(25), doctor VARCHAR(25), tcNo INT(11) UNIQUE)",
               []
             );
           }

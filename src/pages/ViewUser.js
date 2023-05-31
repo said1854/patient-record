@@ -16,6 +16,7 @@ const ViewUser = () => {
   const newSearch = () => {
     setDidSearch(false);
   };
+
   let searchUser = () => {
     console.log(inputUserId);
     setUserData({});

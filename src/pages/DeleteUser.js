@@ -12,7 +12,7 @@ const DeleteUser = ({ navigation }) => {
   let deleteUser = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "DELETE FROM  patient_table where user_id=?",
+        "DELETE FROM  patient_table where tcNo=?",
         [inputUserId],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
@@ -28,6 +28,7 @@ const DeleteUser = ({ navigation }) => {
               ],
               { cancelable: false }
             );
+            alert(`${inputUserId} tc kimlik nolu hasta silindi!`);
           } else {
             alert(`${inputUserId} tc kimlik no ile hasta bulunamadi!`);
           }

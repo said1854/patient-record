@@ -29,7 +29,6 @@ const App = () => {
             headerTintColor: "#fff",
             headerTitleStyle: {
               fontWeight: "bold",
-              paddingLeft: "70px",
             },
           }}
         />

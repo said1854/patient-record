@@ -6,6 +6,7 @@ const db = DatabaseConnection.getConnection();
 
 const ViewAllUser = () => {
   let [flatListItems, setFlatListItems] = useState([]);
+  const [users, setUsers] = useState("");
 
   useEffect(() => {
     db.transaction((tx) => {
@@ -21,6 +22,8 @@ const ViewAllUser = () => {
   let listItemView = (item) => {
     console.log(item);
     const patientName = item.name.split(" ");
+    const doctorName = item.doctor.split(" ");
+    const nurseName = item.nurse.split(" ");
     const capitalizeFirstLetter = (str) => {
       return str.charAt(0).toUpperCase() + str.slice(1);
     };
@@ -30,13 +33,12 @@ const ViewAllUser = () => {
         key={item.user_id}
         style={{
           backgroundColor: "#F2BED1",
+          margin: 10,
           padding: 30,
           borderRadius: 10,
         }}
       >
-        <Text style={styles.textheader}>Hasta kayit No</Text>
-        <Text style={styles.textbottom}>{item.user_id}</Text>
-        <Text style={styles.textheader}>Adı SOyadı</Text>
+        <Text style={styles.textheader}>Adı Soyadı</Text>
         <Text style={styles.textbottom}>
           {patientName.map((name) => capitalizeFirstLetter(name + " "))}
         </Text>
@@ -46,10 +48,14 @@ const ViewAllUser = () => {
         <Text style={styles.textbottom}>{item.address}</Text>
         <Text style={styles.textheader}>Tanı</Text>
         <Text style={styles.textbottom}>{item.diagnosis}</Text>
-        <Text style={styles.textheader}>Hemşire</Text>
-        <Text style={styles.textbottom}>{item.nurse}</Text>
-        <Text style={styles.textheader}>Doktor</Text>
-        <Text style={styles.textbottom}>{item.doctor}</Text>
+        <Text style={styles.textheader}>Sorumlu Doktor</Text>
+        <Text style={styles.textbottom}>
+          {doctorName.map((name) => capitalizeFirstLetter(name + " "))}
+        </Text>
+        <Text style={styles.textheader}>Sorumlu Hemşire</Text>
+        <Text style={styles.textbottom}>
+          {nurseName.map((name) => capitalizeFirstLetter(name + " "))}
+        </Text>
         <Text style={styles.textheader}>Tc kimlik no</Text>
         <Text style={styles.textbottom}>{item.tcNo}</Text>
       </View>
@@ -60,13 +66,17 @@ const ViewAllUser = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
-          <FlatList
-            style={{ marginTop: 30 }}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
-            data={flatListItems}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => listItemView(item)}
-          />
+          {!users ? (
+            <FlatList
+              style={{ marginTop: 30 }}
+              contentContainerStyle={{ paddingHorizontal: 20 }}
+              data={flatListItems}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => listItemView(item)}
+            />
+          ) : (
+            <Text>Hasta kaydi bulunamadi</Text>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -75,14 +85,13 @@ const ViewAllUser = () => {
 
 const styles = StyleSheet.create({
   textheader: {
-    color: '#111',
+    color: "#D14D72",
     fontSize: 12,
-    fontWeight: '700',
-
   },
   textbottom: {
-    color: '#111',
+    color: "#D14D72",
     fontSize: 18,
+    borderBottomWidth: 0.2,
   },
 });
 

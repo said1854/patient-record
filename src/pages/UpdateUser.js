@@ -6,17 +6,17 @@ import {
   Alert,
   SafeAreaView,
   Text,
-} from 'react-native';
-
-import Mytext from './components/Mytext';
-import Mytextinput from './components/Mytextinput';
-import Mybutton from './components/Mybutton';
-import { DatabaseConnection } from '../database/database-connection';
+} from "react-native";
+import Mytext from "./components/Mytext";
+import Mytextinput from "./components/Mytextinput";
+import Mybutton from "./components/Mybutton";
+import { DatabaseConnection } from "../database/database-connection";
 
 const db = DatabaseConnection.getConnection();
 
 const UpdateUser = ({ navigation }) => {
   const [didSearch, setDidSearch] = useState(false);
+  const [userData, setUserData] = useState({});
   const [inputUserId, setInputUserId] = useState("");
   const [nurse, setNurse] = useState("");
   const [doctor, setDoctor] = useState("");
@@ -45,16 +45,17 @@ const UpdateUser = ({ navigation }) => {
   };
 
   let searchUser = () => {
-    setDidSearch(true);
     console.log(inputUserId);
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM patient_table where tcNo = ?",
-        [tcNo],
+        [inputUserId],
         (tx, results) => {
           var len = results.rows.length;
           if (len > 0) {
+            setDidSearch(true);
             let res = results.rows.item(0);
+            // setUserData(res);
             updateAllStates(
               res.name,
               res.contact,
@@ -119,8 +120,8 @@ const UpdateUser = ({ navigation }) => {
 
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE patient_table set name=?, contact=? , address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where user_id=?",
-        [name, contact, address, diagnosis, nurse, doctor, tcNo, inputUserId],
+        "UPDATE patient_table set name=?, contact=? , address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where tcNo=?",
+        [name, contact, address, tcNo, diagnosis, nurse, doctor, tcNo],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
           if (results.rowsAffected > 0) {
@@ -152,19 +153,21 @@ const UpdateUser = ({ navigation }) => {
             >
               {didSearch ? (
                 <>
-                  {" "}
                   <Mytextinput
                     placeholder="Sorumlu Hekim"
+                    value={doctor}
                     onChangeText={(doctor) => setDoctor(doctor)}
                     style={{ padding: 10 }}
                   />
                   <Mytextinput
                     placeholder="Sorumlu hemşire"
+                    value={nurse}
                     onChangeText={(nurse) => setNurse(nurse)}
                     style={{ padding: 10 }}
                   />
                   <Mytextinput
                     placeholder="Tanı"
+                    value={diagnosis}
                     numberOfLines={2}
                     multiline={true}
                     onChangeText={(diagnosis) => setDiagnosis(diagnosis)}
@@ -172,11 +175,13 @@ const UpdateUser = ({ navigation }) => {
                   />
                   <Mytextinput
                     placeholder="Adı Soyadı"
+                    value={name}
                     onChangeText={(name) => setName(name)}
                     style={{ padding: 10 }}
                   />
                   <Mytextinput
                     placeholder="Tc kimlik no"
+                    value={tcNo}
                     onChangeText={(tcNo) => setTcNo(tcNo)}
                     keyboardType="numeric"
                     maxLength={11}
@@ -184,6 +189,7 @@ const UpdateUser = ({ navigation }) => {
                   />
                   <Mytextinput
                     placeholder="Telefon"
+                    value={contact}
                     onChangeText={(contact) => setContact(contact)}
                     maxLength={10}
                     keyboardType="numeric"
@@ -191,6 +197,7 @@ const UpdateUser = ({ navigation }) => {
                   />
                   <Mytextinput
                     placeholder="Adres"
+                    value={address}
                     onChangeText={(address) => setAddress(address)}
                     maxLength={225}
                     numberOfLines={5}

@@ -1,6 +1,5 @@
 import * as SQLite from "expo-sqlite";
 
-// Sqlite veritabanına bağlanmak
 export const DatabaseConnection = {
-  getConnection: () => SQLite.openDatabase("database_deneme.db"),
+  getConnection: () => SQLite.openDatabase("database_deneme1.db"),
 };
