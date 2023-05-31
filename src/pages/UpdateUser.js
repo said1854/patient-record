@@ -16,7 +16,8 @@ import { DatabaseConnection } from '../database/database-connection';
 const db = DatabaseConnection.getConnection();
 
 const UpdateUser = ({ navigation }) => {
-  let [inputUserId, setInputUserId] = useState('');
+  const [didSearch, setDidSearch] = useState(false);
+  const [inputUserId, setInputUserId] = useState("");
   const [nurse, setNurse] = useState("");
   const [doctor, setDoctor] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
@@ -44,11 +45,12 @@ const UpdateUser = ({ navigation }) => {
   };
 
   let searchUser = () => {
+    setDidSearch(true);
     console.log(inputUserId);
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM table_user where user_id = ?",
-        [inputUserId],
+        "SELECT * FROM patient_table where tcNo = ?",
+        [tcno],
         (tx, results) => {
           var len = results.rows.length;
           if (len > 0) {
@@ -71,7 +73,16 @@ const UpdateUser = ({ navigation }) => {
     });
   };
   let updateUser = () => {
-    console.log(inputUserId, userName, userContact, userAddress);
+    console.log(
+      inputUserId,
+      name,
+      contact,
+      address,
+      doctor,
+      tcNo,
+      nurse,
+      diagnosis
+    );
 
     if (!inputUserId) {
       alert("Kod!");
@@ -108,7 +119,7 @@ const UpdateUser = ({ navigation }) => {
 
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE table_user set name=?, contact=? , address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where user_id=?",
+        "UPDATE patient_table set name=?, contact=? , address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where user_id=?",
         [name, contact, address, diagnosis, nurse, doctor, tcNo, inputUserId],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
@@ -139,61 +150,69 @@ const UpdateUser = ({ navigation }) => {
               behavior="padding"
               style={{ flex: 1, justifyContent: "space-between" }}
             >
-              <Mytext text="User Filter" />
-              <Mytextinput
-                placeholder="Enter user code"
-                style={{ padding: 10 }}
-                onChangeText={(inputUserId) => setInputUserId(inputUserId)}
-              />
-              <Mybutton title="Search User" customClick={searchUser} />
-              <Mytextinput
-                placeholder="Sorumlu Hekim"
-                onChangeText={(doctor) => setDoctor(doctor)}
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Sorumlu hemşire"
-                onChangeText={(nurse) => setNurse(nurse)}
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Tanı"
-                numberOfLines={2}
-                multiline={true}
-                onChangeText={(diagnosis) => setDiagnosis(diagnosis)}
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Adı Soyadı"
-                onChangeText={(name) => setName(name)}
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Tc kimlik no"
-                onChangeText={(tcNo) => setTcNo(tcNo)}
-                keyboardType="numeric"
-                maxLength={11}
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Telefon"
-                onChangeText={(contact) => setContact(contact)}
-                maxLength={10}
-                keyboardType="numeric"
-                style={{ padding: 10 }}
-              />
-              <Mytextinput
-                placeholder="Adres"
-                onChangeText={(address) => setAddress(address)}
-                maxLength={225}
-                numberOfLines={5}
-                multiline={true}
-                style={{ textAlignVertical: "top", padding: 10 }}
-              />
-              <Mybutton
-                title="Hasta bilgilerini Güncelle"
-                customClick={updateUser}
-              />
+              {didSearch ? (
+                <>
+                  {" "}
+                  <Mytextinput
+                    placeholder="Sorumlu Hekim"
+                    onChangeText={(doctor) => setDoctor(doctor)}
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Sorumlu hemşire"
+                    onChangeText={(nurse) => setNurse(nurse)}
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Tanı"
+                    numberOfLines={2}
+                    multiline={true}
+                    onChangeText={(diagnosis) => setDiagnosis(diagnosis)}
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Adı Soyadı"
+                    onChangeText={(name) => setName(name)}
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Tc kimlik no"
+                    onChangeText={(tcNo) => setTcNo(tcNo)}
+                    keyboardType="numeric"
+                    maxLength={11}
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Telefon"
+                    onChangeText={(contact) => setContact(contact)}
+                    maxLength={10}
+                    keyboardType="numeric"
+                    style={{ padding: 10 }}
+                  />
+                  <Mytextinput
+                    placeholder="Adres"
+                    onChangeText={(address) => setAddress(address)}
+                    maxLength={225}
+                    numberOfLines={5}
+                    multiline={true}
+                    style={{ textAlignVertical: "top", padding: 10 }}
+                  />
+                  <Mybutton
+                    title="Hasta bilgilerini Güncelle"
+                    customClick={updateUser}
+                  />
+                </>
+              ) : (
+                <>
+                  <Mytext text="Hasta arama" />
+                  <Mytextinput
+                    placeholder="Tc kimlik no"
+                    style={{ padding: 10 }}
+                    onChangeText={(inputUserId) => setInputUserId(inputUserId)}
+                  />
+                  <Mybutton title="Hasta ara" customClick={searchUser} />
+                </>
+              )}
             </KeyboardAvoidingView>
           </ScrollView>
         </View>

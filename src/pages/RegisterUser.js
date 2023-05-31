@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-// import { imagePicker, launchImageLibrary } from "react-native-image-picker";
-// import * as ImagePicker from "react-native-image-picker";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
   KeyboardAvoidingView,
   Alert,
   SafeAreaView,
-  Image,
-  PermissionsAndroid,
 } from "react-native";
 import Mytextinput from "./components/Mytextinput";
 import Mybutton from "./components/Mybutton";
@@ -59,7 +55,7 @@ const RegisterUser = ({ navigation }) => {
 
     db.transaction(function (tx) {
       tx.executeSql(
-        "INSERT INTO table_user (name, contact, address,  diagnosis, nurse, doctor, tcNo) VALUES (?,?,?,?,?,?,?)",
+        "INSERT INTO patient_table (name, contact, address,  diagnosis, nurse, doctor, tcNo) VALUES (?,?,?,?,?,?,?)",
         [name, contact, address, diagnosis, nurse, doctor, tcNo],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
@@ -134,7 +130,7 @@ const RegisterUser = ({ navigation }) => {
                 multiline={true}
                 style={{ textAlignVertical: "top", padding: 10 }}
               />
-              <Mybutton title="Fotograf yukle" />
+              {/* <Mybutton title="Fotograf yukle" /> */}
               <Mybutton title="Kaydet" customClick={register_user} />
             </KeyboardAvoidingView>
           </ScrollView>

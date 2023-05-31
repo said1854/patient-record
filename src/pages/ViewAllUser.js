@@ -9,16 +9,12 @@ const ViewAllUser = () => {
 
   useEffect(() => {
     db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM table_user',
-        [],
-        (tx, results) => {
-          var temp = [];
-          for (let i = 0; i < results.rows.length; ++i)
-            temp.push(results.rows.item(i));
-          setFlatListItems(temp);
-        }
-      );
+      tx.executeSql("SELECT * FROM patient_table", [], (tx, results) => {
+        var temp = [];
+        for (let i = 0; i < results.rows.length; ++i)
+          temp.push(results.rows.item(i));
+        setFlatListItems(temp);
+      });
     });
   }, []);
 
@@ -34,17 +30,23 @@ const ViewAllUser = () => {
           borderRadius: 10,
         }}
       >
+        [name, contact, address, diagnosis, nurse, doctor, tcNo],
         <Text style={styles.textheader}>Code</Text>
         <Text style={styles.textbottom}>{item.user_id}</Text>
-
         <Text style={styles.textheader}>Adı SOyadı</Text>
-        <Text style={styles.textbottom}>{item.user_name}</Text>
-
+        <Text style={styles.textbottom}>{item.name}</Text>
         <Text style={styles.textheader}>Telefon</Text>
-        <Text style={styles.textbottom}>{item.user_contact}</Text>
-
+        <Text style={styles.textbottom}>{item.contact}</Text>
         <Text style={styles.textheader}>Adres</Text>
-        <Text style={styles.textbottom}>{item.user_address}</Text>
+        <Text style={styles.textbottom}>{item.address}</Text>
+        <Text style={styles.textheader}>Adres</Text>
+        <Text style={styles.textbottom}>{item.diagnosis}</Text>
+        <Text style={styles.textheader}>Adres</Text>
+        <Text style={styles.textbottom}>{item.nurse}</Text>
+        <Text style={styles.textheader}>Adres</Text>
+        <Text style={styles.textbottom}>{item.doctor}</Text>
+        <Text style={styles.textheader}>Adres</Text>
+        <Text style={styles.textbottom}>{item.tcNo}</Text>
       </View>
     );
   };

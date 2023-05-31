@@ -12,14 +12,14 @@ const DeleteUser = ({ navigation }) => {
   let deleteUser = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "DELETE FROM  table_user where user_id=?",
+        "DELETE FROM  patient_table where user_id=?",
         [inputUserId],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
           if (results.rowsAffected > 0) {
             Alert.alert(
               "Success",
-              "User Deleted Successfully !",
+              "Hasta başarıyla silindi !",
               [
                 {
                   text: "Ok",
@@ -29,7 +29,7 @@ const DeleteUser = ({ navigation }) => {
               { cancelable: false }
             );
           } else {
-            alert("Please enter a valid user code. !");
+            alert(`${inputUserId} tc kimlik no ile hasta bulunamadi!`);
           }
         }
       );
@@ -41,11 +41,11 @@ const DeleteUser = ({ navigation }) => {
       <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
           <Mytextinput
-            placeholder="Please enter a valid user code."
+            placeholder="Tc kimlik no"
             onChangeText={(inputUserId) => setInputUserId(inputUserId)}
             style={{ padding: 10 }}
           />
-          <Mybutton title="Delete User" customClick={deleteUser} />
+          <Mybutton title="Hasta sil" customClick={deleteUser} />
         </View>
       </View>
     </SafeAreaView>

@@ -93,7 +93,7 @@ const App = () => {
           name="Delete"
           component={DeleteUser}
           options={{
-            title: "Silme",
+            title: "Hasta sil",
             headerStyle: {
               backgroundColor: "#F2BED1",
             },

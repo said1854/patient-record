@@ -8,23 +8,25 @@ import { DatabaseConnection } from '../database/database-connection';
 const db = DatabaseConnection.getConnection();
 
 const ViewUser = () => {
-  let [inputUserId, setInputUserId] = useState('');
-  let [userData, setUserData] = useState({});
+  const [inputUserId, setInputUserId] = useState("");
+  const [didSearch, setDidSearch] = useState("");
+  const [tcNo, setTcNo] = useState("");
+  const [userData, setUserData] = useState({});
 
   let searchUser = () => {
     console.log(inputUserId);
     setUserData({});
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM table_user where user_id = ?',
-        [inputUserId],
+        "SELECT * FROM patient_table where tcNo = ?",
+        [tcNo],
         (tx, results) => {
           var len = results.rows.length;
-          console.log('len', len);
+          console.log("len", len);
           if (len > 0) {
             setUserData(results.rows.item(0));
           } else {
-            alert('User not found !');
+            alert("User not found !");
           }
         }
       );
@@ -35,25 +37,34 @@ const ViewUser = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
-          <Mytext text="User Filter" />
-          <Mytextinput
-            placeholder="Enter Code"
-            onChangeText={(inputUserId) => setInputUserId(inputUserId)}
-            style={{ padding: 10 }}
-          />
-          <Mybutton title="Search User" customClick={searchUser} />
-          <View
-            style={{
-              marginLeft: 35,
-              marginRight: 35,
-              marginTop: 10,
-            }}
-          >
-            <Text>Code : {userData.user_id}</Text>
-            <Text>Adı Soyadı : {userData.user_name}</Text>
-            <Text>Telefon : {userData.user_contact}</Text>
-            <Text>Adres : {userData.user_address}</Text>
-          </View>
+          {didSearch ? (
+            <View
+              style={{
+                border: "1px black solid",
+                marginLeft: 35,
+                marginRight: 35,
+                marginTop: 10,
+              }}
+            >
+              <Text>Tc kimlik no : {userData.tcNo}</Text>
+              <Text>Adı Soyadı : {userData.name}</Text>
+              <Text>Telefon : {userData.contact}</Text>
+              <Text>Sorumlu hekim : {userData.doctor}</Text>
+              <Text>Sorumlu hemsire : {userData.nurse}</Text>
+              <Text>Tani : {userData.diagnosis}</Text>
+              <Text>Adres : {userData.address}</Text>
+            </View>
+          ) : (
+            <>
+              <Mytext text="Hasta ara" />
+              <Mytextinput
+                placeholder="Tc kimlik no"
+                onChangeText={(tcNo) => setTcNo(inputUserId)}
+                style={{ padding: 10 }}
+              />
+              <Mybutton title="Hasta ara" customClick={searchUser} />
+            </>
+          )}
         </View>
       </View>
     </SafeAreaView>
