@@ -44,7 +44,11 @@ const UpdateUser = ({ navigation }) => {
     setDoctor(doctor);
   };
 
-  let searchUser = () => {
+  const newSearch = () => {
+    setDidSearch(false);
+  };
+
+  const searchUser = () => {
     console.log(inputUserId);
     db.transaction((tx) => {
       tx.executeSql(
@@ -73,7 +77,7 @@ const UpdateUser = ({ navigation }) => {
       );
     });
   };
-  let updateUser = () => {
+  const updatePatient = () => {
     console.log(
       inputUserId,
       name,
@@ -120,7 +124,7 @@ const UpdateUser = ({ navigation }) => {
 
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE patient_table set name=?, contact=? , address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where tcNo=?",
+        "UPDATE patient_table set name=?, contact=?, address=?, tcNo=?, diagnosis=?, nurse=?, doctor=? where tcNo=?",
         [name, contact, address, tcNo, diagnosis, nurse, doctor, tcNo],
         (tx, results) => {
           console.log("Results", results.rowsAffected);
@@ -206,8 +210,9 @@ const UpdateUser = ({ navigation }) => {
                   />
                   <Mybutton
                     title="Hasta bilgilerini Güncelle"
-                    customClick={updateUser}
+                    customClick={updatePatient}
                   />
+                  <Mybutton title="Yeni hasta" customClick={newSearch} />
                 </>
               ) : (
                 <>
