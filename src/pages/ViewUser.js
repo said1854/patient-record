@@ -13,6 +13,9 @@ const ViewUser = () => {
   const [tcNo, setTcNo] = useState("");
   const [userData, setUserData] = useState({});
 
+  const newSearch = () => {
+    setDidSearch(false);
+  };
   let searchUser = () => {
     console.log(inputUserId);
     setUserData({});
@@ -23,8 +26,11 @@ const ViewUser = () => {
         (tx, results) => {
           var len = results.rows.length;
           console.log("len", len);
+          console.log(results);
           if (len > 0) {
+            console.log(results.rows.item(0));
             setUserData(results.rows.item(0));
+            setDidSearch(true);
           } else {
             alert("User not found !");
           }
@@ -38,28 +44,32 @@ const ViewUser = () => {
       <View style={{ flex: 1, backgroundColor: "#F8E8EE" }}>
         <View style={{ flex: 1 }}>
           {didSearch ? (
-            <View
-              style={{
-                border: "1px black solid",
-                marginLeft: 35,
-                marginRight: 35,
-                marginTop: 10,
-              }}
-            >
-              <Text>Tc kimlik no : {userData.tcNo}</Text>
-              <Text>Adı Soyadı : {userData.name}</Text>
-              <Text>Telefon : {userData.contact}</Text>
-              <Text>Sorumlu hekim : {userData.doctor}</Text>
-              <Text>Sorumlu hemsire : {userData.nurse}</Text>
-              <Text>Tani : {userData.diagnosis}</Text>
-              <Text>Adres : {userData.address}</Text>
-            </View>
+            <>
+              <View
+                style={{
+                  backgroundColor: "#F2BED1",
+                  margin: 20,
+                  padding: 30,
+                  borderRadius: 10,
+                }}
+              >
+                <Text>Tc kimlik no : {userData.tcNo}</Text>
+                <Text>Adı Soyadı : {userData.name}</Text>
+                <Text>Telefon : {userData.contact}</Text>
+                <Text>Sorumlu hekim : {userData.doctor}</Text>
+                <Text>Sorumlu hemsire : {userData.nurse}</Text>
+                <Text>Tani : {userData.diagnosis}</Text>
+                <Text>Adres : {userData.address}</Text>
+              </View>
+              <View>
+                <Mybutton title="yeni hasta arama" customClick={newSearch} />
+              </View>
+            </>
           ) : (
             <>
-              <Mytext text="Hasta ara" />
               <Mytextinput
                 placeholder="Tc kimlik no"
-                onChangeText={(tcNo) => setTcNo(inputUserId)}
+                onChangeText={(tcNo) => setTcNo(tcNo)}
                 style={{ padding: 10 }}
               />
               <Mybutton title="Hasta ara" customClick={searchUser} />

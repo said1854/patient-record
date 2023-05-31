@@ -50,7 +50,7 @@ const UpdateUser = ({ navigation }) => {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM patient_table where tcNo = ?",
-        [tcno],
+        [tcNo],
         (tx, results) => {
           var len = results.rows.length;
           if (len > 0) {

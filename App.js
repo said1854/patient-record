@@ -65,7 +65,7 @@ const App = () => {
           name="View"
           component={ViewUser}
           options={{
-            title: "Hasta Bul",
+            title: "Hasta Arama",
             headerStyle: {
               backgroundColor: "#F2BED1",
             },
